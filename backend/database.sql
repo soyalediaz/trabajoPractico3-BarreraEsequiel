@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS tp_alumnos;
+
+USE tp_alumnos;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS materias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    codigo VARCHAR(20) NOT NULL UNIQUE,
+    anio INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS notas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    alumno_id INT NOT NULL,
+    materia_id INT NOT NULL,
+
+    nota1 DECIMAL(4,2),
+    nota2 DECIMAL(4,2),
+    nota3 DECIMAL(4,2)
+);
