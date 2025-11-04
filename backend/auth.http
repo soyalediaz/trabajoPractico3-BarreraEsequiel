@@ -1,0 +1,28 @@
+@url=http://localhost:3000
+
+### rtegistro de usuario
+POST {{url}}/auth/register
+content-type: application/json
+
+{
+    "email": "alekey@gmail.com",
+    "nombre": "ale",
+    "password": "contra1313"
+}
+
+### Login
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "alekey@gmail.com",
+    "password": "contra1313"
+}
+
+###
+@token = {{login.response.body.token}}
+
+### Verificar token
+GET {{url}}/auth/verify
+Authorization: Bearer {{token}}

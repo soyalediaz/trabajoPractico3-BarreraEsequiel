@@ -1,0 +1,176 @@
+import express from "express";
+import { body } from "express-validator";
+import { db } from "./db.js";
+import { verificarAutenticacion } from "./auth.js";
+import { validarId, verificarValidaciones } from "./validaciones.js";
+
+
+const router = express.Router();
+
+// mostrar todos los alumnos
+router.get("/", verificarAutenticacion, async (req, res) => {
+    try {
+        const[rows] = await db.execute("SELECT * FROM alumnos ORDER BY apellido, nombre");
+
+        res.json({succes: true, alumnos: rows});
+    } catch (error) {
+        
+        res.status(500).json({success: false, error: "Error al obtener los alumnos"});
+    }
+});
+
+
+
+// mostrar un alumwno por id
+router.get("/:id", verificarAutenticacion, validarId, verificarValidaciones, async (req, res) => {
+
+    const id = Number(req.params.id);
+
+    try {
+        const[rows] = await db.execute("SELECT * FROM alumnos WHERE id = ?", [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({success: false, error: "Alumno no encontrado"});
+        }
+
+        res.json({success: true, alumno: rows[0]});
+
+    } catch (error) {
+
+        res.status(500).json({success: false, error: "Error al obtener el alumno"});
+    }
+});
+
+
+// crear un alumno nuevoc
+router.post(
+    "/",
+    verificarAutenticacion,
+    body("nombre").isLength({ min: 2, max: 50}).trim(),
+    body("apellido").isLength({ min: 2, max: 50}).trim(),
+    body("dni").isInt({ min: 10000000, max: 99999999}),
+
+    verificarValidaciones,
+
+    async (req, res) => {
+        const {nombre, apellido, dni} = req.body;
+
+        try {
+            const[result] = await db.execute(
+                "INSERT INTO alumnos (nombre, apellido, dni) VALUES (?, ?, ?)",
+                [nombre, apellido, dni]
+            );
+
+            res.status(201).json({
+                success: true,
+                alumno: {
+                    id: result.insertId,
+                    nombre,
+                    apellido,
+                    dni
+                }
+            });
+        } catch (error) {
+
+            if (error.code === "ER_DUP_ENTRY") {
+                return res.status(400).json({
+                    success: false,
+                    error: "El DNI ya está registrado"
+                });
+            }
+
+            res.status(500).json({
+                success: false,
+                error: "Error al crear el alumno"
+            });
+        }
+    }
+)
+
+
+
+// actualizar un alumno por id
+router.put(
+    "/:id",
+
+    verificarAutenticacion,
+    validarId,
+
+    body("nombre").isLength({ min: 2, max: 40}).trim(),
+    body("apellido").isLength({ min: 2, max: 40}).trim(),
+    body("dni").isInt({ min: 10000000, max: 99999999}),
+
+    verificarValidaciones,
+
+    async (req, res) => {
+        const id = Number(req.params.id);
+        const {nombre, apellido, dni} = req.body;
+
+        try {
+            const [result] = await db.execute(
+                "UPDATE alumnos SET nombre=?, apellido=?, dni=?, WHERE id=?",
+                [nombre, apellido, dni, id]
+            )
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({success: false, error: "Alumno no encontrado"});
+            }
+
+            res.json({ success: true, message: "alumno actualizado correctamente"});
+        } catch (error) {
+
+            if (error.code === "ER_DUP_ENTRY") {
+                return res.status(400).json({success: false, error: "El DNI ya está registrado"});
+            }
+            
+
+            res.status(500).json({success: false, error: "Error al actualizar el alumno"});
+        }
+    }
+)
+
+
+
+// eliminar un alumno por id
+router.delete(
+    "/:id",
+    verificarAutenticacion,
+    validarId,
+    async (req, res) => {
+        const id = Number(req.params.id);
+        try {
+            const [result] = await db.execute("DELETE FROM alumnos WHERE id = ?", [id]);
+        
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    success: false,
+                    error: "Alumno no encontrado"
+                });
+            }
+            
+
+
+            res.json({
+                success: true,
+                message: "alumno eliminado correctamente"
+            });
+
+
+
+        } catch (error) {
+            if (error.code === "ER_ROW_IS_REFERENCED_2") {
+                return res.status(400).json({
+                    success: false,
+                    error: "El alumno ya tiene inscripciones "
+                });
+            }
+
+
+
+            //error general
+            res.status(500).json({success: false, error: "Error al eliminar el alumno"});
+        }
+    }
+)
+
+export default router;
