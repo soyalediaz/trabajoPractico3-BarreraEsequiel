@@ -11,9 +11,9 @@ export async function connectDB() {
             database: process.env.DB_NAME,
             port: process.env.DB_PORT,
         }); 
-        console.log('Tamo activos con la base de datos');
+        console.log('Conectados a la base de datos');
     } catch (error) {
-        console.error('Error al conectar a la base de datos :c ', error);
+        console.error('Error al conectar a la base de datos', error);
         throw error;
     }
 }
