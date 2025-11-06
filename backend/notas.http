@@ -1,0 +1,46 @@
+@url=http://localhosto:3000
+
+### Login
+# @name login
+POST {{url}}/auth/login
+Content-Type: application/json
+{
+    "email": "alekey@gmail.com",
+    "password": "123456"
+}
+
+###
+@token = {{login.response.body.token}}
+
+### mostrar notas de un alumno
+GET {{url}}/notas/alumno/1
+Authorizacion: Bearer {{token}}
+
+### mostrar notas de una materia
+GET {{url}}/notas/materia/1
+Authorizacion: Bearer {{token}}
+
+### crear o actualizar una nota
+POST {{url}}/notas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "alumno_id": 1,
+    "materia_id": 1,
+    "nota1": 8.5,
+    "nota2": 3.0,
+    "nota3": 4.5
+}
+
+### Actualizar notas de un alumno
+PUT {{url}}/notas/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nota1": 8.5,
+    "nota2": 3.0,
+    "nota3": 4.5
+}
+
