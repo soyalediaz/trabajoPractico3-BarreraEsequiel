@@ -1,15 +1,15 @@
-import { param, ResultadosValidaciones } from "express-validator";
+import { param, validationResult } from "express-validator";
 
-export const validarId = param("id").inInt({ min:1 })
+export const validarId = param("id").isInt({ min: 1 });
 
 export const verificarValidaciones = (req, res, next) => {
-    const validacion = ResultadosValidaciones(req);
+    const validacion = validationResult(req);
     if (!validacion.isEmpty()) {
         return res.status(400).json({
             success: false,
             message: "Validación fallida",
-            errors: validacion.array()
-            });
-        }
-        next();
+            errores: validacion.array()
+        });
     }
+    next();
+};

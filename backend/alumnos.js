@@ -108,7 +108,7 @@ router.put(
 
         try {
             const [result] = await db.execute(
-                "UPDATE alumnos SET nombre=?, apellido=?, dni=?, WHERE id=?",
+                "UPDATE alumnos SET nombre=?, apellido=?, dni=? WHERE id=?",
                 [nombre, apellido, dni, id]
             )
 

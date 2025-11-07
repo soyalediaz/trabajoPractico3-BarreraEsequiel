@@ -48,8 +48,9 @@ router.post(
     verificarAutenticacion,
     body("nombre").isLength({ min: 3, max: 100 }).trim(),
 
-    body("codigo").isAlphaNumeric().isLength({ min: 2, max: 20 }).toUpperCase(),
-    body("anio").isInt({ min: 2000, max: 2025 }),
+    body("codigo").isAlphanumeric().isLength({ min: 2, max: 20 }).toUpperCase(),
+    body("anio").isInt({ min: 1, max: 6 }),
+    
     verificarValidaciones,
     async (req, res) => {
         const { nombre, codigo, anio } = req.body;
@@ -84,8 +85,8 @@ router.put(
     verificarAutenticacion,
     validarId,
     body("nombre").isLength({ min: 3, max: 100 }).trim(),
-    body("codigo").isAlphaNumeric().isLength({ min: 2, max: 20 }).toUpperCase(),
-    body("anio").isInt({ min: 2000, max: 2025 }),
+    body("codigo").isAlphanumeric().isLength({ min: 2, max: 20 }).toUpperCase(),
+    body("anio").isInt({ min: 1, max: 6 }),
     verificarValidaciones,
     async (req, res) => {
         const id = Number(req.params.id);
