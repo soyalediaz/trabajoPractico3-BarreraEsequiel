@@ -3,8 +3,8 @@
 export function App() {
     return (
         <article>
-            <h1>festión de Alumnos</h1>
-            <p>lumnos, materias y notas</p>
+            <h1>Gestion de Alumnos</h1>
+            <p>Alumnos, materias y notas</p>
         </article>
-    )
+    );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from './Auth';
-// import styles from './Login.module.css';
+import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const Login = () => {
@@ -16,7 +16,7 @@ export const Login = () => {
 
         const result = await login(email, password);
 
-        if (result.error) {
+        if (result.success) {
             navigate('/alumnos');
         }
 
@@ -74,8 +74,8 @@ export const Login = () => {
                 </form>
 
                 <p className={styles.link}>
-                    ¿No tenés una cuenta?{' '}
-                    <Link to="/register" className={styles.link}>
+                    no tenés una cuenta?{' '}
+                    <Link to="/registro" className={styles.link}>
                         Registrate
                     </Link>
                 </p>

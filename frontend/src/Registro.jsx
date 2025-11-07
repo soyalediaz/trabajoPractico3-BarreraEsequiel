@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from './Auth';
-// import styles from './Registro.module.css';
+import styles from './Registro.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const Registro = () => {
@@ -12,7 +12,6 @@ export const Registro = () => {
         nombre: '',
         email: '',
         password: '',
-        confirmPassword: '',
     });
 
     const [loading, setLoading] = useState(false);
@@ -36,10 +35,6 @@ export const Registro = () => {
 
         if (!/\d/.test(formRegistro.password)) {
             errors.password = 'La contraseña debe tener al menos un numero';
-        }
-
-        if (formRegistro.password !== formRegistro.confirmPassword) {
-            errors.confirmPassword = 'Las contraseñas no coinciden';
         }
 
         setValidacionDeErrores(errors);
@@ -147,7 +142,7 @@ export const Registro = () => {
                         )}
                     </div>
 
-                        {error && <div className={styles.error}>{error}</div>}
+                    {error && <div className={styles.error}>{error}</div>}
 
                     <button
                         type="submit"
