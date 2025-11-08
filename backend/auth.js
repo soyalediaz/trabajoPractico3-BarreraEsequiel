@@ -28,16 +28,24 @@ export function authConfig() {
 export const verificarAutenticacion = passport.authenticate("jwt", { session: false });
 
 router.post(
-    "/register", 
-        body("email").isEmail().normalizeEmail(),
-        body("nombre").isLength({ min: 2, max: 50}).trim(),
-        body("password").isStrongPassword({
-            minLength: 8,
-            minLowercase: 1,
-            minUppercase: 0,
-            minNumbers: 1,
-            minSymbols: 0,
-        }),
+    "/registro", 
+        body("email")
+            .isEmail()
+            .withMessage("El email no es válido")
+            .normalizeEmail(),
+        body("nombre")
+            .isLength({ min: 2, max: 50})
+            .withMessage("el nombre debe tener entre 2 y 50 caracteres")
+            .trim(),
+        body("password")
+            .isStrongPassword({
+                minLength: 8,
+                minLowercase: 1,
+                minUppercase: 0,
+                minNumbers: 1,
+                minSymbols: 0,
+            })
+            .withMessage("la contraseña debe tener 8 caracteres y un número"),
 
         verificarValidaciones,
 
@@ -68,7 +76,7 @@ router.post(
 
                 res.status(500).json({
                     success: false,
-                    error: "Error al registrar usuario"
+                    error: "error al registrar usuario"
                 });
             }
         }

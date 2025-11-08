@@ -23,23 +23,14 @@ app.get('/', (req, res) => {
     res.send('Api de Alumnos');
 });
 
-//rutas
-app.use('/auth', authRouter);
-app.use('/alumnos', alumnosRouter);
-app.use('/materias', materiasRouter);
-app.use('/notas', notasRouter);
+
+app.use('/api/auth', authRouter);  
+app.use('/api/alumnos', alumnosRouter);
+app.use('/api/materias', materiasRouter);
+app.use('/api/notas', notasRouter);
 
 
-app.use((err, res) => {
-    console.error("error en el servidor", err);
-    res.status(500).json({
-        success: false,
-        error: "error interno del servidor",
-        message: err.message
-    });
-});
-
-app.use((res) => {
+app.use((req, res, next) => {
     res.status(404).json({
         success: false,
         error: "ruta no encontrada",
@@ -47,6 +38,14 @@ app.use((res) => {
     });
 });
 
+app.use((err, req, res, next) => {
+    console.error("error en el servidor", err);
+    res.status(500).json({
+        success: false,
+        error: "error interno del servidor",
+        message: err.message
+    });
+});
 
 
 
