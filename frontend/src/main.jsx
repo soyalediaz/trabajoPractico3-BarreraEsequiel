@@ -11,6 +11,7 @@ import { Registro } from './Registro.jsx'
 import { Layout } from './Layout.jsx'
 import { Alumnos } from './Alumnos.jsx'
 import { Materias } from './Materias.jsx'
+import { Notas } from './Notas.jsx'
 
 createRoot(document.getElementById('root')).render(
 
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/registro" element={<Registro />} />
             <Route path="/alumnos" element={<Alumnos />} />
             <Route path="/materias" element={<Materias />} />
+            <Route path="/notas" element={<Notas />} />
           </Route>
 
         </Routes>

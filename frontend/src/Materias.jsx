@@ -16,7 +16,7 @@ export const Materias = () => {
 
     const cargarMaterias = useCallback(async () => {
         try {
-            const response = await fetchAuth('http://localhost:3000/materias');
+            const response = await fetchAuth('http://localhost:3000/api/materias');
             const data = await response.json();
 
             if (response.ok) {
@@ -41,7 +41,7 @@ export const Materias = () => {
 
         try {
             if (formData.id) {
-                await fetchAuth(`http://localhost:3000/materias/${formData.id}`, {
+                await fetchAuth(`http://localhost:3000/api/materias/${formData.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -51,7 +51,7 @@ export const Materias = () => {
                     }),
                 });
             } else {
-                await fetchAuth('http://localhost:3000/materias', {
+                await fetchAuth('http://localhost:3000/api/materias', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -86,7 +86,7 @@ export const Materias = () => {
         if (!confirm('¿Estás seguro de eliminar esta materia?')) return;
 
         try {
-            await fetchAuth(`http://localhost:3000/materias/${id}`, {
+            await fetchAuth(`http://localhost:3000/api/materias/${id}`, {
                 method: 'DELETE',
             });
             await cargarMaterias();

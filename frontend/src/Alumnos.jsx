@@ -16,7 +16,7 @@ export const Alumnos = () => {
 
     const cargarAlumnos = useCallback(async () => {
         try {
-            const response = await fetchAuth('http://localhost:3000/alumnos');
+            const response = await fetchAuth('http://localhost:3000/api/alumnos');
             const data = await response.json();
 
             if (response.ok) {
@@ -41,7 +41,7 @@ export const Alumnos = () => {
 
         try {
             if (formulario.id) {
-                await fetchAuth(`http://localhost:3000/alumnos/${formulario.id}`, {
+                await fetchAuth(`http://localhost:3000/api/alumnos/${formulario.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -51,7 +51,7 @@ export const Alumnos = () => {
                     }),
                 });
             } else {
-                await fetchAuth('http://localhost:3000/alumnos', {
+                await fetchAuth('http://localhost:3000/api/alumnos', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -86,7 +86,7 @@ export const Alumnos = () => {
         if (!confirm('¿Estas seguro de eliminar este alumno?')) return;
 
         try {
-            await fetchAuth(`http://localhost:3000/alumnos/${id}`, {
+            await fetchAuth(`http://localhost:3000/api/alumnos/${id}`, {
                 method: 'DELETE',
             });
             await cargarAlumnos();
