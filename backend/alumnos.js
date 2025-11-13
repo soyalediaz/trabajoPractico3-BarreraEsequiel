@@ -10,9 +10,13 @@ const router = express.Router();
 // mostrar todos los alumnos
 router.get("/", verificarAutenticacion, async (req, res) => {
     try {
-        const[rows] = await db.execute("SELECT * FROM alumnos ORDER BY apellido, nombre");
+        const userId = req.user.userId;
+        const[rows] = await db.execute(
+            "SELECT * FROM alumnos WHERE usuario_id = ? ORDER BY apellido, nombre",
+            [userId]
+        );
 
-        res.json({succes: true, alumnos: rows});
+        res.json({success: true, alumnos: rows});
     } catch (error) {
         
         res.status(500).json({success: false, error: "Error al obtener los alumnos"});
@@ -21,13 +25,16 @@ router.get("/", verificarAutenticacion, async (req, res) => {
 
 
 
-// mostrar un alumwno por id
 router.get("/:id", verificarAutenticacion, validarId, verificarValidaciones, async (req, res) => {
 
     const id = Number(req.params.id);
+    const userId = req.user.userId;
 
     try {
-        const[rows] = await db.execute("SELECT * FROM alumnos WHERE id = ?", [id]);
+        const[rows] = await db.execute(
+            "SELECT * FROM alumnos WHERE id = ? AND usuario_id = ?",
+            [id, userId]
+        );
 
         if (rows.length === 0) {
             return res.status(404).json({success: false, error: "Alumno no encontrado"});
@@ -42,7 +49,7 @@ router.get("/:id", verificarAutenticacion, validarId, verificarValidaciones, asy
 });
 
 
-// crear un alumno nuevoc
+
 router.post(
     "/",
     verificarAutenticacion,
@@ -54,11 +61,12 @@ router.post(
 
     async (req, res) => {
         const {nombre, apellido, dni} = req.body;
+        const userId = req.user.userId;
 
         try {
             const[result] = await db.execute(
-                "INSERT INTO alumnos (nombre, apellido, dni) VALUES (?, ?, ?)",
-                [nombre, apellido, dni]
+                "INSERT INTO alumnos (nombre, apellido, dni, usuario_id) VALUES (?, ?, ?, ?)",
+                [nombre, apellido, dni, userId]
             );
 
             res.status(201).json({
@@ -89,7 +97,6 @@ router.post(
 
 
 
-// actualizar un alumno por id
 router.put(
     "/:id",
 
@@ -105,11 +112,12 @@ router.put(
     async (req, res) => {
         const id = Number(req.params.id);
         const {nombre, apellido, dni} = req.body;
+        const userId = req.user.userId;
 
         try {
             const [result] = await db.execute(
-                "UPDATE alumnos SET nombre=?, apellido=?, dni=? WHERE id=?",
-                [nombre, apellido, dni, id]
+                "UPDATE alumnos SET nombre=?, apellido=?, dni=? WHERE id=? AND usuario_id=?",
+                [nombre, apellido, dni, id, userId]
             )
 
             if (result.affectedRows === 0) {
@@ -131,15 +139,18 @@ router.put(
 
 
 
-// eliminar un alumno por id
 router.delete(
     "/:id",
     verificarAutenticacion,
     validarId,
     async (req, res) => {
         const id = Number(req.params.id);
+        const userId = req.user.userId;
         try {
-            const [result] = await db.execute("DELETE FROM alumnos WHERE id = ?", [id]);
+            const [result] = await db.execute(
+                "DELETE FROM alumnos WHERE id = ? AND usuario_id = ?",
+                [id, userId]
+            );
         
             if (result.affectedRows === 0) {
                 return res.status(404).json({

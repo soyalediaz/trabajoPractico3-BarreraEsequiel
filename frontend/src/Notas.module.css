@@ -1,2 +1,134 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
 
+  .title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .selectGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    max-width: 300px;
+  }
+
+  .label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .select {
+    padding: var(--spacing-md);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-ale);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: var(--bg-primary);
+  }
+
+  .card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    padding: var(--spacing-xl);
+  }
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .cardTitle {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .promedio {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--accent);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--accent-light);
+    border-radius: var(--radius-ale);
+  }
+
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .noteInput {
+    width: 80px;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-ale);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+    text-align: center;
+  }
+
+  .noteInput:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: var(--bg-primary);
+  }
+
+  .averageCell {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .empty {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .saveBtn {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-xl);
+    background-color: var(--accent);
+    border: none;
+    border-radius: var(--radius-ale);
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+  }

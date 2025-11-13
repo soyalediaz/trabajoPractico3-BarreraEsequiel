@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './Auth';
 import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const Login = () => {
-    const { error, login } = useAuth();
+    const { error, login, token } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (token) {
+            navigate('/alumnos');
+        }
+    }, [token, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,6 +45,7 @@ export const Login = () => {
                             className={styles.input}
                             id="email"
                             value={email}
+                            placeholder="Ingrese su email"
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             disabled={loading}

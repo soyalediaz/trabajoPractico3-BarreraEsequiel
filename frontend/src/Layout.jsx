@@ -1,10 +1,16 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from './Auth';
 import styles from './Layout.module.css';
 
 export const Layout = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
 
     return (
@@ -49,7 +55,7 @@ export const Layout = () => {
                             <div className={styles.userInfo}>
                                 <span>{user.nombre}</span>
 
-                                <button className={styles.logoutButton} onClick={logout}>
+                                <button className={styles.logoutBtn} onClick={handleLogout}>
                                     Salir
                                 </button>
                             </div>

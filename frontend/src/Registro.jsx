@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './Auth';
 import styles from './Registro.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const Registro = () => {
-    const { error, register } = useAuth();
+    const { error, register, token } = useAuth();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token) {
+            navigate('/alumnos');
+        }
+    }, [token, navigate]);
 
     const [formRegistro, setFormRegistro] = useState({
         nombre: '',
@@ -73,9 +79,6 @@ export const Registro = () => {
         <div className={styles.container}>
             <div className={styles.card}>
                 <h1 className={styles.title}>Registro</h1>
-                <p className={styles.description}>
-                    Crea una cuenta para acceder a tu panel de control
-                </p>
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <div className={styles.formGroup}>

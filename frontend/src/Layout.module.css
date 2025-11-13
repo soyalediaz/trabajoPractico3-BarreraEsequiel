@@ -1,40 +1,79 @@
 .container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .navbar {
-    background-color: black;
-    border-bottom: 1px solid var(--border-color);
-    padding: var(--spacing-md) var(--spacing-xl);
-  }
-  
-  .navContent {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--spacing-xl);
-  }
-  
-  
-  .navLinks {
-    display: flex;
-    gap: var(--spacing-lg);
-    align-items: center;
-    list-style: none;
-  }
-  
-  .navLink {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    transition: all 0.2s ease;
-  }
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
+.navbar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-md) var(--spacing-xl);
+}
 
-  
+.navContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.logo {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+  list-style: none;
+}
+
+.navLink {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.navLink.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.logoutBtn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-ale);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  border-color: var(--error);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.main {
+  flex: 1;
+  padding: var(--spacing-xl);
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}

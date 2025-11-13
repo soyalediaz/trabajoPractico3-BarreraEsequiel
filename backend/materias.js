@@ -8,7 +8,11 @@ const router = express.Router();
 
 router.get('/', verificarAutenticacion, async (req, res) => {
     try {
-        const [rows] = await db.execute('SELECT * FROM materias ORDER BY anio, nombre');
+        const userId = req.user.userId;
+        const [rows] = await db.execute(
+            'SELECT * FROM materias WHERE usuario_id = ? ORDER BY anio, nombre',
+            [userId]
+        );
         res.json({success: true, materias: rows});
     } catch (error) {
         res.status(500).json({success: false, error: "error al obtener las materias"});
@@ -23,9 +27,13 @@ router.get(
     validarId,
     async (req, res) => {
         const id = Number(req.params.id);
+        const userId = req.user.userId;
 
         try {
-            const [rows] = await db.execute('SELECT * FROM materias WHERE id = ?', [id]);
+            const [rows] = await db.execute(
+                'SELECT * FROM materias WHERE id = ? AND usuario_id = ?',
+                [id, userId]
+            );
 
             if (rows.length === 0) {
                 return res.status(404).json({
@@ -54,11 +62,12 @@ router.post(
     verificarValidaciones,
     async (req, res) => {
         const { nombre, codigo, anio } = req.body;
+        const userId = req.user.userId;
 
         try {
             const [result] = await db.execute(
-                "INSERT INTO materias (nombre, codigo, anio) VALUES (?, ?, ?)",
-                [nombre, codigo, anio]
+                "INSERT INTO materias (nombre, codigo, anio, usuario_id) VALUES (?, ?, ?, ?)",
+                [nombre, codigo, anio, userId]
             );
 
             res.status(201).json({
@@ -91,11 +100,12 @@ router.put(
     async (req, res) => {
         const id = Number(req.params.id);
         const { nombre, codigo, anio } = req.body;
+        const userId = req.user.userId;
 
         try {
             const [result] = await db.execute(
-                "UPDATE materias SET nombre=?, codigo=?, anio=? WHERE id=?",
-                [nombre, codigo, anio, id]
+                "UPDATE materias SET nombre=?, codigo=?, anio=? WHERE id=? AND usuario_id=?",
+                [nombre, codigo, anio, id, userId]
             );
 
             if (result.affectedRows === 0) {
@@ -127,9 +137,13 @@ router.delete(
     verificarValidaciones,
     async (req, res) => {
         const id = Number(req.params.id);
+        const userId = req.user.userId;
 
         try {
-            const [result] = await db.execute("DELETE FROM materias WHERE id=?", [id]);
+            const [result] = await db.execute(
+                "DELETE FROM materias WHERE id=? AND usuario_id=?",
+                [id, userId]
+            );
 
             if (result.affectedRows === 0) {
                 return res

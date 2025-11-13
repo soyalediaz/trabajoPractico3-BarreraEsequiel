@@ -8,26 +8,25 @@ body {
     font-family: "Electrolize", sans-serif;
     font-weight: 400;
     font-style: normal;
-    background-color: #181818;
-    color: #f0f0f0;
+    background-color: #0f1419;
+    color: #f0f4f8;
 }
-:root { /*variables Recomendadas (las robe de un repositorio de github)*/
-    /* Colores principales - Tema oscuro minimalista */
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #141414;
-    --bg-tertiary: #1a1a1a;
-    --bg-hover: #242424;
+:root {
+    --bg-primary: #0f1419;
+    --bg-secondary: #1a1f29;
+    --bg-tertiary: #242b38;
+    --bg-hover: #2d3545;
     
-    --text-primary: #e0e0e0;
-    --text-secondary: #a0a0a0;
-    --text-muted: #666666;
+    --text-primary: #f0f4f8;
+    --text-secondary: #a8b2c1;
+    --text-muted: #6b7786;
     
-    --border-color: #2a2a2a;
-    --border-hover: #3a3a3a;
+    --border-color: #2d3545;
+    --border-hover: #3d4758;
     
-    --accent: #5254f5;
-    --accent-hover: #2b23be;
-    --accent-light: rgba(99, 102, 241, 0.1);
+    --accent: #0078d4;
+    --accent-hover: #005a9e;
+    --accent-light: rgba(0, 120, 212, 0.1);
     
     --success: #10b981;
     --error: #ef4444;
@@ -57,6 +56,7 @@ body {
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
+    --radius-ale: 100rem;
     
     /* Sombras */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
