@@ -2,7 +2,7 @@
 
 ### Login
 # @name login
-POST {{url}}/auth/login
+POST {{url}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -14,35 +14,35 @@ Content-Type: application/json
 @token = {{login.response.body.token}}
 
 ### mostrar todas las materias
-GET {{url}}/materias
+GET {{url}}/api/materias
 Authorization: Bearer {{token}}
 
 ###  obtener materia por id
-GET {{url}}/materias
-Authorizacion: Bearer {{token}}
+GET {{url}}/api/materias/1
+Authorization: Bearer {{token}}
 
 ### crear una nueva materia
-POST {{url}}/materias
+POST {{url}}/api/materias
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
     "nombre": "Matemática",
     "codigo": "MAT1",
-    "anio": 2025
+    "anio": 1
 }
 
 ### actualizar una materia
-PUT {{url}}/materias/1
+PUT {{url}}/api/materias/1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
     "nombre": "Matemática",
-    "codigo": "MAT1",
-    "anio": 2025
+    "codigo": "MAT2",
+    "anio": 2
 }
 
 ### eliminar una materia
-DELETE {{url}}/materias/1
+DELETE {{url}}/api/materias/1
 Authorization: Bearer {{token}}

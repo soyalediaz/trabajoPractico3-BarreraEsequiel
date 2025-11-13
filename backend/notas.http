@@ -1,8 +1,8 @@
-@url=http://localhosto:3000
+@url=http://localhost:3000
 
 ### Login
 # @name login
-POST {{url}}/auth/login
+POST {{url}}/api/auth/login
 Content-Type: application/json
 {
     "email": "alekey@gmail.com",
@@ -13,15 +13,15 @@ Content-Type: application/json
 @token = {{login.response.body.token}}
 
 ### mostrar notas de un alumno
-GET {{url}}/notas/alumno/1
-Authorizacion: Bearer {{token}}
+GET {{url}}/api/notas/alumno/1
+Authorization: Bearer {{token}}
 
 ### mostrar notas de una materia
-GET {{url}}/notas/materia/1
-Authorizacion: Bearer {{token}}
+GET {{url}}/api/notas/materia/1
+Authorization: Bearer {{token}}
 
 ### crear o actualizar una nota
-POST {{url}}/notas
+POST {{url}}/api/notas
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -34,7 +34,7 @@ Content-Type: application/json
 }
 
 ### Actualizar notas de un alumno
-PUT {{url}}/notas/1
+PUT {{url}}/api/notas/1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
