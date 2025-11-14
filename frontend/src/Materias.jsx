@@ -3,16 +3,16 @@ import { useAuth } from './Auth';
 import styles from './Materias.module.css';
 
 export const Materias = () => {
-    const { fetchAuth } = useAuth();
-    const [materias, setMaterias] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        id: null,
-        nombre: '',
-        codigo: '',
-        anio: '',
-    });
-    const [showForm, setShowForm] = useState(false);
+const { fetchAuth } = useAuth();
+const [materias, setMaterias] = useState([]);
+const [loading, setLoading] = useState(false);
+const [formData, setFormData] = useState({
+id: null,
+nombre: '',
+codigo: '',
+anio: '',
+});
+const [showForm, setShowForm] = useState(false);
 
     const cargarMaterias = useCallback(async () => {
         try {
@@ -40,8 +40,9 @@ export const Materias = () => {
         setLoading(true);
 
         try {
+            let response;
             if (formData.id) {
-                await fetchAuth(`http://localhost:3000/api/materias/${formData.id}`, {
+                response = await fetchAuth(`http://localhost:3000/api/materias/${formData.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -51,7 +52,7 @@ export const Materias = () => {
                     }),
                 });
             } else {
-                await fetchAuth('http://localhost:3000/api/materias', {
+                response = await fetchAuth('http://localhost:3000/api/materias', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -62,11 +63,19 @@ export const Materias = () => {
                 });
             }
 
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.error || 'Error al guardar la materia');
+                return;
+            }
+
             setShowForm(false);
             setFormData({ id: null, nombre: '', codigo: '', anio: '' });
             await cargarMaterias();
         } catch (error) {
             console.error('Error al guardar materia:', error);
+            alert('Error al guardar la materia: ' + error.message);
         } finally {
             setLoading(false);
         }
@@ -109,7 +118,7 @@ export const Materias = () => {
                         className={`${styles.btn} ${styles.btnPrimary}`}
                         onClick={() => setShowForm(true)}
                     >
-                        + Nueva Materia
+                        nueva Materia
                     </button>
                 )}
             </div>
@@ -253,5 +262,5 @@ export const Materias = () => {
             </div>
         </div>
     );
-};
 
+};

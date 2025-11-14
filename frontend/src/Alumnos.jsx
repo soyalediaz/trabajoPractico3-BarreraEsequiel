@@ -3,16 +3,16 @@ import { useAuth } from './Auth';
 import styles from './Alumnos.module.css';
 
 export const Alumnos = () => {
-    const { fetchAuth } = useAuth();
-    const [alumnos, setAlumnos] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [formulario, setFormulario] = useState({
-        id: null,
-        nombre: '',
-        apellido: '',
-        dni: '',
-    });
-    const [mostrarForm, setMostrarForm] = useState(false);
+const { fetchAuth } = useAuth();
+const [alumnos, setAlumnos] = useState([]);
+const [loading, setLoading] = useState(false);
+const [formulario, setFormulario] = useState({
+id: null,
+nombre: '',
+apellido: '',
+dni: '',
+});
+const [mostrarForm, setMostrarForm] = useState(false);
 
     const cargarAlumnos = useCallback(async () => {
         try {
@@ -40,8 +40,9 @@ export const Alumnos = () => {
         setLoading(true);
 
         try {
+            let response;
             if (formulario.id) {
-                await fetchAuth(`http://localhost:3000/api/alumnos/${formulario.id}`, {
+                response = await fetchAuth(`http://localhost:3000/api/alumnos/${formulario.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -51,7 +52,7 @@ export const Alumnos = () => {
                     }),
                 });
             } else {
-                await fetchAuth('http://localhost:3000/api/alumnos', {
+                response = await fetchAuth('http://localhost:3000/api/alumnos', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -62,11 +63,19 @@ export const Alumnos = () => {
                 });
             }
 
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.error || 'Error al guardar el alumno');
+                return;
+            }
+
             setMostrarForm(false);
             setFormulario({ id: null, nombre: '', apellido: '', dni: '' });
             await cargarAlumnos();
         } catch (error) {
             console.error('Error al guardar alumno:', error);
+            alert('Error al guardar el alumno: ' + error.message);
         } finally {
             setLoading(false);
         }
@@ -107,7 +116,7 @@ export const Alumnos = () => {
 
                 {!mostrarForm && (
                     <button
-                        className={`${styles.boton} ${styles.botonPrimario}`}
+                        className={`${styles.btn} ${styles.botonPrimario}`}
                         onClick={() => setMostrarForm(true)}
                     >
                         nuevo Alumno
@@ -185,7 +194,7 @@ export const Alumnos = () => {
                         <div className={styles.formAcciones}>
                             <button
                                 type='button'
-                                className={styles.boton}
+                                className={styles.btn}
                                 onClick={handleCancel}
                                 disabled={loading}
                             >
@@ -194,7 +203,7 @@ export const Alumnos = () => {
 
                             <button
                                 type='submit'
-                                className={`${styles.boton} ${styles.botonPrimario}`}
+                                className={`${styles.btn} ${styles.botonPrimario}`}
                                 disabled={loading}
                             >
                                 {loading ? 'Guardando...' : formulario.id ? 'Actualizar' : 'Crear'}
@@ -231,7 +240,7 @@ export const Alumnos = () => {
                                     <td>{alumno.apellido}</td>
                                     <td>{alumno.dni}</td>
                                     <td>
-                                        <div className={styles.tableActions}>
+                                        <div className={styles.tablaAcciones}>
                                             <button
                                                 className={styles.btn}
                                                 onClick={() => handleEdit(alumno)}
@@ -255,4 +264,5 @@ export const Alumnos = () => {
             </div>
         </div>
     );
+
 };
